@@ -7,7 +7,6 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import ClientGuard from '@/components/ClientGuard';
 import { TaskCompletionGraph } from '@/components/home';
-import { Calendar } from '@/components/charts/calender';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
   ChartBarIcon, 
@@ -75,9 +74,6 @@ export default function DashboardPage() {
 
           {/* Task Completion Graph */}
           <TaskCompletionGraph />
-          
-          {/* Calender */}
-          <Calendar />
 
           {/* Stats Grid */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">

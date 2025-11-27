@@ -4,11 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-// import { TasksAPI, FoodTasksAPI, HealthTasksAPI, WorkTasksAPI } from '@/lib/api';
-// import { BaseTask } from '@/lib/types';
-// import { FoodTask } from '@/lib/api/foodTasks';
-// import { HealthTask } from '@/lib/api/healthTasks';
-// import { WorkTask } from '@/lib/api/workTasks';
+import { apiClient } from '@/lib/api/client';
 
 interface TaskCompletionData {
   date: string;
@@ -92,40 +88,48 @@ const TaskCompletionGraph: React.FC = () => {
       const { start, end } = getDateRange(timePeriod);
       const dateLabels = generateDateLabels(timePeriod);
 
-      // For now, use fallback data to avoid API issues
-      // TODO: Implement proper API calls once backend is ready
-      const fallbackData: TaskCompletionData[] = dateLabels.map((label, index) => {
-        const completed = Math.floor(Math.random() * 8) + 2; // 2-10 tasks
-        const total = completed + Math.floor(Math.random() * 3) + 1; // 1-3 pending
-        const completionRate = Math.round((completed / total) * 100);
+      const response = await apiClient.client.get('/tasks');
+      const tasks = response.data.data || [];
+
+      const dateMap = new Map<string, { completed: number; total: number }>();
+      
+      dateLabels.forEach(label => {
+        dateMap.set(label, { completed: 0, total: 0 });
+      });
+
+      tasks.forEach((task: any) => {
+        const taskDate = task.updatedAt ? new Date(task.updatedAt) : new Date(task.createdAt);
+        
+        if (taskDate >= start && taskDate <= end) {
+          const label = formatDate(taskDate, timePeriod);
+          
+          const existing = dateMap.get(label);
+          if (existing) {
+            existing.total++;
+            if (task.status === 'completed') {
+              existing.completed++;
+            }
+          }
+        }
+      });
+
+      const chartData: TaskCompletionData[] = dateLabels.map((label) => {
+        const data = dateMap.get(label) || { completed: 0, total: 0 };
+        const completionRate = data.total > 0 ? Math.round((data.completed / data.total) * 100) : 0;
         
         return {
           date: label,
-          completed,
-          total,
+          completed: data.completed,
+          total: data.total,
           completionRate
         };
       });
-      setData(fallbackData);
+
+      setData(chartData);
     } catch (err) {
       console.error('Error fetching task completion data:', err);
       setError('Failed to load task completion data');
-      
-      // Fallback data for demo purposes
-      const dateLabels = generateDateLabels(timePeriod);
-      const fallbackData: TaskCompletionData[] = dateLabels.map((label, index) => {
-        const completed = Math.floor(Math.random() * 8) + 2; // 2-10 tasks
-        const total = completed + Math.floor(Math.random() * 3) + 1; // 1-3 pending
-        const completionRate = Math.round((completed / total) * 100);
-        
-        return {
-          date: label,
-          completed,
-          total,
-          completionRate
-        };
-      });
-      setData(fallbackData);
+      setData([]);
     } finally {
       setLoading(false);
     }
