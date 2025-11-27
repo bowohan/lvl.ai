@@ -14,6 +14,9 @@ import friendRoutes from './friendRoutes';
 // Import AI organizer routes
 import organizerRoutes from './organizerAgentRoutes';
 
+// Import focus mode routes
+import focusModeRoutes from './focusModeRoutes';
+
 const router = Router();
 
 // @route   GET /api/
@@ -31,6 +34,7 @@ router.get('/', (_req, res) => {
       friends: '/api/friends',
       tasks: '/api/tasks',
       organizer: '/api/organizer',
+      focus: '/api/focus',
     }
   });
 });
@@ -57,5 +61,8 @@ router.use('/tasks', taskRoutes);
 
 // Mount AI organizer routes
 router.use('/organizer', organizerRoutes);
+
+// Mount focus mode routes
+router.use('/focus', focusModeRoutes);
 
 export default router;
