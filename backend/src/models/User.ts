@@ -24,6 +24,13 @@ export interface IUser extends Document {
   xp: number;
   totalTasksCompleted: number;
 
+  // Focus Mode
+  flowXp: number;
+  focusStreak: number;
+  longestFocusStreak: number;
+  totalFocusSessions: number;
+  lastFocusSessionDate?: Date;
+
   // Tasks - simple array reference
   tasks: mongoose.Types.ObjectId[];
 
@@ -97,6 +104,28 @@ const UserSchema = new Schema<IUser>(
       default: 0,
       min: [0, 'Total tasks completed cannot be negative']
     },
+
+    flowXp: {
+      type: Number,
+      default: 0,
+      min: [0, 'Flow XP cannot be negative']
+    },
+    focusStreak: {
+      type: Number,
+      default: 0,
+      min: [0, 'Focus streak cannot be negative']
+    },
+    longestFocusStreak: {
+      type: Number,
+      default: 0,
+      min: [0, 'Longest focus streak cannot be negative']
+    },
+    totalFocusSessions: {
+      type: Number,
+      default: 0,
+      min: [0, 'Total focus sessions cannot be negative']
+    },
+    lastFocusSessionDate: Date,
 
     tasks: [{
       type: Schema.Types.ObjectId,
