@@ -10,12 +10,12 @@ import {
   ClipboardDocumentListIcon, 
   UserGroupIcon, 
   ChartBarIcon, 
-  Cog6ToothIcon,
   Bars3Icon,
   XMarkIcon,
   BellIcon,
   UserCircleIcon,
-  ArrowRightOnRectangleIcon
+  ArrowRightOnRectangleIcon,
+  FireIcon
 } from '@heroicons/react/24/outline';
 
 interface NavigationItem {
@@ -28,9 +28,9 @@ interface NavigationItem {
 const navigation: NavigationItem[] = [
   { name: 'Dashboard', href: '/home', icon: HomeIcon },
   { name: 'Tasks', href: '/tasks', icon: ClipboardDocumentListIcon },
+  { name: 'Focus Mode', href: '/focus', icon: FireIcon },
   { name: 'Friends', href: '/friends', icon: UserGroupIcon },
   { name: 'Analytics', href: '/analytics', icon: ChartBarIcon },
-  { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
 ];
 
 interface SidebarProps {
