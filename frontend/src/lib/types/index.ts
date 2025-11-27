@@ -38,6 +38,18 @@ export type {
 // User Helper Functions
 export { parseUserDates, getNextLevelXP, getXPProgress, canLevelUp } from './User';
 
+// Focus Session Types
+export { SessionStatus, SessionType } from './FocusSession';
+export type {
+  FocusSession,
+  AIAnalysis,
+  CreateFocusSessionDTO,
+  UpdateFocusSessionDTO,
+  SessionRewards,
+  FocusStats,
+  SessionStats
+} from './FocusSession';
+
 // Backward compatibility - Legacy exports (will be removed in future)
 // These are here temporarily to prevent breaking changes
 export { TaskPriority as TaskPriorityLegacy, TaskStatus as TaskStatusLegacy } from './Task';
