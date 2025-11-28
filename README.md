@@ -576,6 +576,3 @@ This project utilizes several open-source technologies and services:
 - **Next.js**: React framework for production
 - **MongoDB**: NoSQL database platform
 
----
-
-**Built using modern web technologies**
