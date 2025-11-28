@@ -4,28 +4,27 @@ A comprehensive, AI-powered task management platform that gamifies productivity 
 
 ## Overview
 
-LVL.AI is a full-stack productivity platform that transforms task management into an engaging, gamified experience. The platform combines traditional task management with AI-powered insights, social features, and a comprehensive hotel management system.
+LVL.AI is a full-stack productivity platform that transforms task management into an engaging, gamified experience. The platform combines traditional task management with AI-powered insights, social features, focus mode with Pomodoro timers, and comprehensive analytics.
 
 ### Key Features
 
 - **Focus Mode**: Pomodoro-style timer with AI-powered productivity insights and Flow XP rewards
 - **Gamified Experience**: XP-based leveling system with achievements and streaks
-- **AI-Powered Insights**: Smart task suggestions and productivity analysis using DeepSeek AI
+- **AI-Powered Insights**: Smart task suggestions and productivity analysis using DeepSeek AI via OpenRouter
+- **RAG Agent**: Retrieval-Augmented Generation agent for context-aware task organization
 - **Social Features**: Friend connections, shared achievements, and leaderboards
 - **Advanced Analytics**: Comprehensive progress tracking and productivity metrics
-- **Hotel Management**: Complete hotel operations dashboard with booking and billing systems
 - **Secure Authentication**: JWT-based authentication with email verification
 - **Responsive Design**: Modern UI built with Tailwind CSS and Radix UI components
 
 ## Architecture
 
-The project consists of three main applications:
+The project consists of two main applications:
 
 ```
 lvl.ai/
 ├── backend/          # Node.js/Express API server
-├── frontend/         # Next.js React application
-└── hotel-dashboard/  # Hotel management dashboard
+└── frontend/         # Next.js React application
 ```
 
 ## Technology Stack
@@ -51,13 +50,7 @@ lvl.ai/
 - **Forms**: React Hook Form with Zod validation
 - **Charts**: Recharts for data visualization
 - **Icons**: Heroicons and Lucide React
-
-### Hotel Dashboard (`/hotel-dashboard`)
-- **Framework**: Next.js 15 with React 19
-- **UI Library**: Radix UI components
-- **Styling**: Tailwind CSS
-- **Charts**: Recharts for analytics
-- **Features**: Booking management, billing system, food delivery tracking
+- **TypeScript**: Full type safety across the application
 
 ## Quick Start
 
@@ -83,10 +76,6 @@ lvl.ai/
    
    # Frontend
    cd ../frontend
-   npm install
-   
-   # Hotel Dashboard
-   cd ../hotel-dashboard
    npm install
    ```
 
@@ -152,16 +141,9 @@ lvl.ai/
    npm run dev
    ```
 
-   **Hotel Dashboard** (Terminal 3):
-   ```bash
-   cd hotel-dashboard
-   npm run dev
-   ```
-
 7. **Access the applications**
-   - Main Application: http://localhost:3000
+   - Frontend Application: http://localhost:3000
    - Backend API: http://localhost:5001
-   - Hotel Dashboard: http://localhost:3001
 
 ## API Documentation
 
@@ -269,21 +251,37 @@ After each session, the AI analyzes your productivity and provides:
 
 ## AI Features
 
-### Organizer Agent
+### Organizer Agent (RAG System)
 
-The platform includes a sophisticated RAG (Retrieval-Augmented Generation) agent that provides:
+The platform includes a sophisticated RAG (Retrieval-Augmented Generation) agent that provides context-aware task management assistance:
 
-- **Context-Aware Assistance**: Retrieves user data and task history for personalized responses
+#### Core Capabilities
+- **Context-Aware Assistance**: Retrieves user data, tasks, and statistics for personalized responses
 - **Task Organization**: AI-powered suggestions for task prioritization and scheduling
-- **Productivity Analysis**: Insights into user patterns and recommendations
-- **Daily Planning**: Automated daily task planning based on user preferences
-- **Motivational Support**: Personalized encouragement based on progress
+- **Productivity Analysis**: Insights into user patterns with actionable recommendations
+- **Daily Planning**: Automated daily task planning based on user preferences and workload
+- **Motivational Support**: Personalized encouragement based on progress and achievements
+- **Interactive Chat**: Natural language conversations about task management and productivity
 
-### AI Providers
+#### Data Retrieval (RAG)
+The agent retrieves and formats comprehensive user context including:
+- User profile (name, level, XP, preferences)
+- Complete task list with status, priority, and deadlines
+- Task statistics (pending, completed, overdue counts)
+- Focus session history and productivity metrics
 
-- **Primary**: OpenRouter API with DeepSeek models (free tier)
-- **Fallback**: Direct DeepSeek API integration
-- **Framework**: LangChain for AI workflow management
+#### AI Integration
+- **Primary Provider**: OpenRouter API with DeepSeek models (free tier)
+- **Fallback Provider**: Direct DeepSeek API integration
+- **Framework**: LangChain for AI workflow management and prompt engineering
+- **Model**: DeepSeek Chat (free, high-quality responses)
+
+#### API Endpoints
+- `POST /api/organizer/chat` - Chat with AI organizer
+- `GET /api/organizer/suggestions` - Get organization suggestions
+- `GET /api/organizer/daily-plan` - Generate daily task plan
+- `GET /api/organizer/productivity-analysis` - Analyze productivity patterns
+- `GET /api/organizer/motivation` - Get motivational messages
 
 ## Gamification System
 
@@ -305,26 +303,6 @@ The platform includes a sophisticated RAG (Retrieval-Augmented Generation) agent
 - **Achievement Sharing**: Share accomplishments with friends
 - **Leaderboards**: Compare total XP, Flow XP, and levels with others
 - **Global Rankings**: See how you rank among all users
-
-## Hotel Dashboard Features
-
-The hotel dashboard provides comprehensive hotel management capabilities:
-
-### Core Modules
-- **Dashboard**: Overview of hotel operations with key metrics
-- **Booking Management**: Guest check-in/check-out, room assignments
-- **Room Management**: Room status, availability tracking
-- **Billing System**: Invoice generation, payment tracking
-- **Food Delivery**: Room service order management
-- **Customer Reviews**: Guest feedback and rating system
-- **Analytics**: Revenue tracking, occupancy reports
-
-### Key Metrics
-- Daily arrivals/departures
-- Room occupancy rates
-- Revenue tracking
-- Guest satisfaction scores
-- Food service analytics
 
 ## Development Scripts
 
@@ -352,14 +330,6 @@ npm run lint:fix     # Fix ESLint errors
 npm run type-check   # Run TypeScript type checking
 npm run format       # Format code with Prettier
 npm run clean        # Clean build artifacts
-```
-
-### Hotel Dashboard Scripts
-```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm start            # Start production server
-npm run lint         # Run ESLint
 ```
 
 ## Testing
@@ -402,10 +372,6 @@ This allows for immediate testing of all features without manual data entry.
    # Frontend
    cd ../frontend
    npm run build
-   
-   # Hotel Dashboard
-   cd ../hotel-dashboard
-   npm run build
    ```
 
 2. **Set production environment variables**
@@ -418,10 +384,6 @@ This allows for immediate testing of all features without manual data entry.
    
    # Frontend
    cd ../frontend
-   npm start
-   
-   # Hotel Dashboard
-   cd ../hotel-dashboard
    npm start
    ```
 
